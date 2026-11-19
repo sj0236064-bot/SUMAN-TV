@@ -1,0 +1,6 @@
+node_modules/
+.env
+*.zip
+*-backup.js
+*-backup.html
+public/videos/
