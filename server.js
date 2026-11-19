@@ -124,7 +124,7 @@ http.createServer((req,res)=>{
   res.end(data);
  });
 
-}).listen(8080,'127.0.0.1',()=>{
+}).listen(process.env.PORT || 8080,'0.0.0.0',()=>{
  console.log('NEXORA INDIA VERSION 9.0 READY');
  console.log('http://localhost:8080');
 });
