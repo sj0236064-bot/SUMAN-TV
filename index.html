@@ -588,7 +588,7 @@ setTimeout(()=>{
 
 async function loadVideos(){
  try{
-  const r=await fetch('/api/videos');
+  const r=await fetch('./videos.json');
   if(!r.ok)throw Error();
   videos=await r.json();
   render();
@@ -654,7 +654,7 @@ function playVideo(v){
  document.getElementById('playerPage').style.display='block';
 
  const p=document.getElementById('mainPlayer');
- p.src='/videos/'+encodeURIComponent(v);
+ p.src='./videos/'+encodeURIComponent(v);
  p.load();
 
  document.getElementById('videoTitle').textContent=v;
