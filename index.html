@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#090b12">
+
+<title>NEXORA TV | INDIA</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+ --bg:#090b12;
+ --panel:#151b29;
+ --red:#ff3048;
+ --orange:#ff9933;
+ --green:#138808;
+ --text:#fff;
+ --muted:#a5adbd;
+}
+
+body{
+ background:var(--bg);
+ color:var(--text);
+ font-family:Arial,sans-serif;
+}
+
+button,input{font:inherit}
+button{cursor:pointer}
+
+#loader{
+ position:fixed;
+ inset:0;
+ z-index:100;
+ background:#080a12;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ flex-direction:column;
+ transition:.5s;
+}
+
+.loader-logo{
+ font-size:35px;
+ font-weight:900;
+ letter-spacing:2px;
+}
+
+.flag{
+ width:65px;
+ height:42px;
+ margin-bottom:18px;
+ display:flex;
+ flex-direction:column;
+ overflow:hidden;
+ border-radius:5px;
+ box-shadow:0 0 25px #ff993355;
+}
+
+.flag span{flex:1}
+.flag span:nth-child(1){background:#ff9933}
+.flag span:nth-child(2){
+ background:white;
+ display:grid;
+ place-items:center;
+ color:#17449b;
+ font-size:17px;
+}
+.flag span:nth-child(3){background:#138808}
+
+.loader-line{
+ width:180px;
+ height:4px;
+ background:#252a38;
+ margin-top:25px;
+ border-radius:10px;
+ overflow:hidden;
+}
+
+.loader-line:after{
+ content:"";
+ display:block;
+ height:100%;
+ width:40%;
+ background:var(--red);
+ animation:loading 1.2s infinite;
+}
+
+@keyframes loading{
+ from{transform:translateX(-100%)}
+ to{transform:translateX(350%)}
+}
+
+header{
+ height:68px;
+ position:sticky;
+ top:0;
+ z-index:20;
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ padding:0 5%;
+ background:#101522;
+ border-bottom:1px solid #283044;
+}
+
+.logo{
+ display:flex;
+ align-items:center;
+ gap:10px;
+ font-size:22px;
+ font-weight:900;
+}
+
+.logo-icon{
+ width:38px;
+ height:38px;
+ border-radius:12px;
+ background:linear-gradient(135deg,var(--red),#a50024);
+ display:grid;
+ place-items:center;
+}
+
+.logo-icon span{
+ font-size:20px;
+}
+
+.logo small{
+ display:block;
+ color:var(--orange);
+ font-size:9px;
+ letter-spacing:3px;
+ margin-top:3px;
+}
+
+.search{
+ width:42%;
+ display:flex;
+}
+
+.search input{
+ width:100%;
+ min-width:0;
+ padding:12px 17px;
+ background:#090e19;
+ border:1px solid #354057;
+ border-radius:25px 0 0 25px;
+ color:white;
+ outline:none;
+}
+
+.search button{
+ padding:0 18px;
+ border:0;
+ border-radius:0 25px 25px 0;
+ background:var(--red);
+ color:white;
+}
+
+.profile{
+ font-size:25px;
+}
+
+.layout{
+ display:flex;
+}
+
+.sidebar{
+ position:fixed;
+ top:68px;
+ bottom:0;
+ width:205px;
+ padding:20px 12px;
+ background:#101522;
+}
+
+.nav{
+ display:block;
+ padding:15px;
+ margin-bottom:7px;
+ border-radius:10px;
+ color:#ddd;
+ text-decoration:none;
+ font-size:14px;
+}
+
+.nav.active,.nav:hover{
+ background:#29334a;
+ color:white;
+}
+
+.main{
+ margin-left:205px;
+ width:calc(100% - 205px);
+ padding:23px;
+}
+
+.hero{
+ position:relative;
+ overflow:hidden;
+ min-height:200px;
+ padding:30px;
+ border-radius:18px;
+ background:
+ radial-gradient(circle at 85% 20%,#ff993355,transparent 35%),
+ linear-gradient(110deg,#3b1823,#151b29 70%);
+ border:1px solid #66333a;
+ display:flex;
+ flex-direction:column;
+ justify-content:center;
+}
+
+.hero:after{
+ content:"🇮🇳";
+ position:absolute;
+ right:35px;
+ font-size:90px;
+ opacity:.25;
+}
+
+.hero small{
+ color:var(--orange);
+ letter-spacing:3px;
+ font-weight:bold;
+}
+
+.hero h1{
+ font-size:32px;
+ margin:15px 0 8px;
+}
+
+.hero p{color:#c5c9d3;font-size:14px}
+
+.hero button{
+ width:max-content;
+ margin-top:20px;
+ padding:12px 23px;
+ border:0;
+ border-radius:25px;
+ background:var(--red);
+ color:white;
+ font-weight:bold;
+}
+
+.section-title{
+ margin:28px 0 18px;
+ font-size:21px;
+}
+
+.categories{
+ display:flex;
+ gap:10px;
+ overflow-x:auto;
+ padding:17px 0;
+ scrollbar-width:none;
+}
+
+.categories button{
+ white-space:nowrap;
+ border:0;
+ padding:10px 19px;
+ border-radius:9px;
+ background:#222b3d;
+ color:white;
+}
+
+.categories button.active{
+ background:white;
+ color:#111;
+}
+
+.upload-box{
+ margin-top:25px;
+ padding:20px;
+ border-radius:15px;
+ background:var(--panel);
+ border:1px solid #29344a;
+}
+
+.upload-box h3{margin-bottom:12px}
+
+.upload-box input{
+ max-width:100%;
+ margin:10px 0;
+ color:white;
+}
+
+.primary{
+ background:linear-gradient(100deg,#ff3048,#ff7133);
+ border:0;
+ padding:13px 22px;
+ color:white;
+ border-radius:9px;
+ font-weight:bold;
+}
+
+.grid{
+ display:grid;
+ grid-template-columns:repeat(3,minmax(0,1fr));
+ gap:22px 16px;
+}
+
+.card{min-width:0;cursor:pointer}
+
+.thumb{
+ width:100%;
+ aspect-ratio:16/9;
+ border-radius:13px;
+ background:linear-gradient(135deg,#202b42,#101522);
+ display:grid;
+ place-items:center;
+ font-size:36px;
+ color:#ff5266;
+}
+
+.info{
+ display:flex;
+ gap:10px;
+ padding-top:12px;
+}
+
+.avatar{
+ width:35px;
+ height:35px;
+ flex-shrink:0;
+ border-radius:50%;
+ background:linear-gradient(135deg,var(--orange),var(--green));
+ display:grid;
+ place-items:center;
+ font-weight:bold;
+}
+
+.title{
+ font-size:14px;
+ font-weight:bold;
+ line-height:1.5;
+ overflow-wrap:anywhere;
+}
+
+.meta{
+ color:var(--muted);
+ font-size:12px;
+ margin-top:6px;
+}
+
+.empty{
+ grid-column:1/-1;
+ padding:45px 15px;
+ text-align:center;
+ color:var(--muted);
+ background:var(--panel);
+ border-radius:12px;
+}
+
+#playerPage{display:none}
+
+#mainPlayer{
+ width:100%;
+ max-height:70vh;
+ background:black;
+ border-radius:14px;
+}
+
+.player-actions{
+ display:flex;
+ gap:10px;
+ flex-wrap:wrap;
+ margin:18px 0;
+}
+
+.player-actions button{
+ padding:12px 18px;
+ border:0;
+ border-radius:25px;
+ background:#26334b;
+ color:white;
+}
+
+#seek{
+ width:100%;
+ accent-color:var(--red);
+ margin:15px 0;
+}
+
+#comments{
+ margin-top:30px;
+ padding:20px;
+ background:var(--panel);
+ border-radius:15px;
+}
+
+#comments input{
+ width:100%;
+ padding:14px;
+ margin:15px 0;
+ border-radius:9px;
+ background:#090e19;
+ border:1px solid #354057;
+ color:white;
+}
+
+.comment{
+ margin-top:10px;
+ padding:12px;
+ border-radius:9px;
+ background:#202a3d;
+ overflow-wrap:anywhere;
+}
+
+footer{
+ text-align:center;
+ padding:35px;
+ color:#8d96a9;
+}
+
+.bottom{
+ display:none;
+}
+
+@media(max-width:950px){
+ .sidebar{width:75px}
+ .nav{text-align:center;padding:16px 3px;font-size:11px}
+ .main{margin-left:75px;width:calc(100% - 75px)}
+ .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+
+@media(max-width:600px){
+ header{height:60px;padding:0 12px}
+ .logo{font-size:17px}
+ .logo-icon{width:32px;height:32px}
+ .search{width:43%}
+ .search input{font-size:11px;padding:10px}
+ .search button{padding:0 12px}
+ .sidebar{display:none}
+ .main{margin:0;width:100%;padding:13px}
+ .hero{min-height:170px;padding:20px}
+ .hero h1{font-size:25px}
+ .hero:after{right:10px;font-size:65px}
+ .grid{gap:20px 10px}
+ .title{font-size:12px}
+ .meta{font-size:10px}
+ .thumb{border-radius:9px}
+ .bottom{
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  z-index:30;
+  height:60px;
+  display:flex;
+  justify-content:space-around;
+  align-items:center;
+  background:#111827;
+  border-top:1px solid #354057;
+ }
+ .bottom a{
+  text-decoration:none;
+  color:white;
+  font-size:11px;
+  text-align:center;
+ }
+ footer{padding-bottom:85px}
+}
+</style>
+</head>
+
+<body>
+
+<div id="loader">
+ <div class="flag">
+  <span></span>
+  <span>☸</span>
+  <span></span>
+ </div>
+ <div class="loader-logo">NEXORA TV</div>
+ <p style="color:#aaa;margin-top:10px;letter-spacing:3px">INDIA VERSION</p>
+ <div class="loader-line"></div>
+</div>
+
+<header>
+ <div class="logo">
+  <div class="logo-icon"><span>▶</span></div>
+  <div>NEXORA<small>INDIA VERSION</small></div>
+ </div>
+
+ <div class="search">
+  <input id="search" placeholder="Search videos..." oninput="render()">
+  <button onclick="render()">⌕</button>
+ </div>
+
+ <div class="profile">🇮🇳</div>
+</header>
+
+<div class="layout">
+
+<aside class="sidebar">
+ <a href="#" class="nav active" onclick="home()">🏠 Home</a>
+ <a href="#videos" class="nav">▶ Videos</a>
+ <a href="#upload" class="nav">📤 Upload</a>
+ <a href="#comments" class="nav">💬 Comments</a>
+</aside>
+
+<main class="main">
+
+<div id="homePage">
+
+<section class="hero">
+ <small>🇮🇳 MADE FOR INDIA</small>
+ <h1>YOUR WORLD. YOUR VIDEOS.</h1>
+ <p>Discover videos with NEXORA TV.</p>
+ <button onclick="document.getElementById('videos').scrollIntoView()">EXPLORE VIDEOS</button>
+</section>
+
+<section class="upload-box" id="upload">
+ <h3>📤 NEXORA UPLOAD STUDIO</h3>
+ <p style="color:#aaa;font-size:13px">Upload a general-audience video to your local library.</p>
+ <input id="uploadFile" type="file" accept="video/mp4,video/webm">
+ <br>
+ <button class="primary" onclick="uploadVideo()">UPLOAD VIDEO</button>
+ <p id="uploadStatus" style="margin-top:12px;color:#aaa"></p>
+</section>
+
+<div class="categories">
+ <button class="active" onclick="filter('all',this)">All</button>
+ <button onclick="filter('mp4',this)">MP4</button>
+ <button onclick="filter('webm',this)">WEBM</button>
+</div>
+
+<h2 class="section-title" id="videos">Recommended Videos</h2>
+
+<div class="grid" id="videoGrid">
+ <div class="empty">Loading videos...</div>
+</div>
+
+</div>
+
+<div id="playerPage">
+ <button class="primary" onclick="home()">← BACK</button>
+
+ <h2 id="videoTitle" style="margin:20px 0"></h2>
+
+ <video id="mainPlayer" controls playsinline preload="metadata"></video>
+
+ <input type="range" id="seek" min="0" max="1000" value="0">
+
+ <div class="player-actions">
+  <button onclick="togglePlay()">▶ / ⏸ Play</button>
+  <button onclick="seek(-10)">↶ 10s</button>
+  <button onclick="seek(10)">10s ↷</button>
+  <button onclick="fullScreen()">⛶ Fullscreen</button>
+  <button onclick="likeVideo()">👍 Like <span id="likeCount">0</span></button>
+ </div>
+
+ <section id="comments">
+  <h3>COMMENTS</h3>
+  <input id="commentInput" placeholder="Write a comment...">
+  <button class="primary" onclick="addComment()">POST COMMENT</button>
+  <div id="commentList"></div>
+ </section>
+</div>
+
+<footer>
+ NEXORA TV © 2026<br>
+ <span style="color:#ff9933">YOUR VIDEO.</span>
+ <span>YOUR WORLD.</span> 🇮🇳
+</footer>
+
+</main>
+</div>
+
+<nav class="bottom">
+ <a href="#" onclick="home()">🏠<br>Home</a>
+ <a href="#videos">▶<br>Videos</a>
+ <a href="#upload">📤<br>Upload</a>
+ <a href="#comments">💬<br>Comments</a>
+</nav>
+
+<script>
+let videos=[];
+let currentVideo='';
+let category='all';
+
+setTimeout(()=>{
+ document.getElementById('loader').style.opacity='0';
+ setTimeout(()=>document.getElementById('loader').style.display='none',500);
+},1400);
+
+async function loadVideos(){
+ try{
+  const r=await fetch('/api/videos');
+  if(!r.ok)throw Error();
+  videos=await r.json();
+  render();
+ }catch(e){
+  document.getElementById('videoGrid').innerHTML=
+  '<div class="empty">Unable to load videos.</div>';
+ }
+}
+
+function render(){
+ const q=document.getElementById('search').value.toLowerCase();
+ const grid=document.getElementById('videoGrid');
+ grid.innerHTML='';
+
+ const list=videos.filter(v=>
+  v.toLowerCase().includes(q)&&
+  (category==='all'||v.toLowerCase().endsWith('.'+category))
+ );
+
+ if(!list.length){
+  grid.innerHTML='<div class="empty">No videos found. Upload a video to begin.</div>';
+  return;
+ }
+
+ list.forEach(v=>{
+  const card=document.createElement('article');
+  card.className='card';
+
+  const thumb=document.createElement('div');
+  thumb.className='thumb';
+  thumb.textContent='▶';
+
+  const info=document.createElement('div');
+  info.className='info';
+
+  const avatar=document.createElement('div');
+  avatar.className='avatar';
+  avatar.textContent='N';
+
+  const details=document.createElement('div');
+
+  const title=document.createElement('div');
+  title.className='title';
+  title.textContent=v.replace(/\.[^.]+$/,'');
+
+  const meta=document.createElement('div');
+  meta.className='meta';
+  meta.textContent='NEXORA TV • Local Video';
+
+  details.append(title,meta);
+  info.append(avatar,details);
+  card.append(thumb,info);
+  card.onclick=()=>playVideo(v);
+
+  grid.append(card);
+ });
+}
+
+function playVideo(v){
+ currentVideo=v;
+
+ document.getElementById('homePage').style.display='none';
+ document.getElementById('playerPage').style.display='block';
+
+ const p=document.getElementById('mainPlayer');
+ p.src='/videos/'+encodeURIComponent(v);
+ p.load();
+
+ document.getElementById('videoTitle').textContent=v;
+ document.getElementById('likeCount').textContent=localStorage['like_'+v]||0;
+
+ loadComments();
+ window.scrollTo(0,0);
+}
+
+function home(){
+ const p=document.getElementById('mainPlayer');
+ p.pause();
+ p.removeAttribute('src');
+ p.load();
+
+ document.getElementById('playerPage').style.display='none';
+ document.getElementById('homePage').style.display='block';
+ window.scrollTo(0,0);
+}
+
+function filter(c,btn){
+ category=c;
+ document.querySelectorAll('.categories button').forEach(b=>b.classList.remove('active'));
+ btn.classList.add('active');
+ render();
+}
+
+function togglePlay(){
+ const p=document.getElementById('mainPlayer');
+ if(p.paused)p.play();
+ else p.pause();
+}
+
+function seek(n){
+ const p=document.getElementById('mainPlayer');
+ if(Number.isFinite(p.duration))p.currentTime=Math.max(0,Math.min(p.duration,p.currentTime+n));
+}
+
+function fullScreen(){
+ const p=document.getElementById('mainPlayer');
+ if(p.requestFullscreen)p.requestFullscreen();
+ else if(p.webkitEnterFullscreen)p.webkitEnterFullscreen();
+}
+
+const player=document.getElementById('mainPlayer');
+const slider=document.getElementById('seek');
+
+player.addEventListener('timeupdate',()=>{
+ if(Number.isFinite(player.duration)&&player.duration>0){
+  slider.value=player.currentTime/player.duration*1000;
+ }
+});
+
+slider.addEventListener('input',()=>{
+ if(Number.isFinite(player.duration)){
+  player.currentTime=slider.value/1000*player.duration;
+ }
+});
+
+function likeVideo(){
+ if(!currentVideo)return;
+ let n=Number(localStorage['like_'+currentVideo]||0)+1;
+ localStorage['like_'+currentVideo]=n;
+ document.getElementById('likeCount').textContent=n;
+}
+
+function addComment(){
+ const input=document.getElementById('commentInput');
+ const value=input.value.trim();
+ if(!value||!currentVideo)return;
+
+ const key='comments_'+currentVideo;
+ const list=JSON.parse(localStorage[key]||'[]');
+ list.push(value);
+ localStorage[key]=JSON.stringify(list);
+
+ input.value='';
+ loadComments();
+}
+
+function loadComments(){
+ const list=JSON.parse(localStorage['comments_'+currentVideo]||'[]');
+ const box=document.getElementById('commentList');
+ box.innerHTML='';
+
+ list.slice().reverse().forEach(value=>{
+  const p=document.createElement('p');
+  p.className='comment';
+  p.textContent=value;
+  box.append(p);
+ });
+}
+
+async function uploadVideo(){
+ const input=document.getElementById('uploadFile');
+ const status=document.getElementById('uploadStatus');
+ const file=input.files[0];
+
+ if(!file){
+  status.textContent='Please select a video.';
+  return;
+ }
+
+ if(!/\.(mp4|webm)$/i.test(file.name)){
+  status.textContent='Only MP4 and WEBM files are supported.';
+  return;
+ }
+
+ status.textContent='Uploading...';
+
+ try{
+  const r=await fetch('/api/upload',{
+   method:'POST',
+   headers:{'X-Filename':encodeURIComponent(file.name)},
+   body:file
+  });
+
+  if(!r.ok)throw Error();
+
+  status.textContent='Upload successful!';
+  input.value='';
+  await loadVideos();
+ }catch(e){
+  status.textContent='Upload failed. Check storage and filename.';
+ }
+}
+
+loadVideos();
+</script>
+
+</body>
+</html>
